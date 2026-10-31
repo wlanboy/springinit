@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Init</title>
+    <meta name="description" content="Spring Boot Service – Status, Build-Infos und Endpoints">
+    <meta name="theme-color" content="#0a0a12">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+    <span class="blob blob--a"></span>
+    <span class="blob blob--b"></span>
+    <span class="blob blob--c"></span>
+    <span class="grid"></span>
+</div>
+
+<header class="topbar">
+    <a class="brand" href="/">
+        <span class="brand__mark">◆</span>
+        <span id="app-name">spring</span>
+    </a>
+    <span class="pill" id="health-pill" data-state="loading">
+        <span class="pill__dot"></span>
+        <span id="health-text">prüfe…</span>
+    </span>
+</header>
+
+<main>
+    <section class="hero">
+        <p class="eyebrow">Spring Boot 4 · Java 25</p>
+        <h1 class="hero__title">
+            Läuft.<br>
+            <span class="gradient-text">Schnell und schlank.</span>
+        </h1>
+        <p class="hero__lead">
+            AOT-kompiliert, mit Virtual Threads und als Layered Jar im Container.
+            Diese Seite fragt die Actuator-Endpoints live ab.
+        </p>
+        <div class="hero__actions">
+            <a class="btn btn--primary" href="/actuator/health">Health ansehen</a>
+            <a class="btn btn--ghost" href="/actuator">Alle Endpoints</a>
+        </div>
+    </section>
+
+    <section class="cards" aria-label="Laufzeit-Infos">
+        <article class="card card--status">
+            <h2 class="card__label">Status</h2>
+            <p class="card__value" id="status-value">—</p>
+            <p class="card__meta" id="status-meta">/actuator/health</p>
+        </article>
+        <article class="card">
+            <h2 class="card__label">Version</h2>
+            <p class="card__value" id="version-value">—</p>
+            <p class="card__meta" id="artifact-meta">build-info</p>
+        </article>
+        <article class="card">
+            <h2 class="card__label">Build</h2>
+            <p class="card__value card__value--sm" id="build-time">—</p>
+            <p class="card__meta" id="build-ago">&nbsp;</p>
+        </article>
+    </section>
+
+    <section class="features" aria-label="Features">
+        <article class="feature" style="--accent: var(--pink)">
+            <span class="feature__icon">⚡</span>
+            <h3>AOT</h3>
+            <p>Die Bean-Definitionen werden beim Build vorberechnet. Das verkürzt den Start und spart Speicher.</p>
+        </article>
+        <article class="feature" style="--accent: var(--cyan)">
+            <span class="feature__icon">🧵</span>
+            <h3>Virtual Threads</h3>
+            <p>Blockierende Requests belegen keinen Plattform-Thread mehr.</p>
+        </article>
+        <article class="feature" style="--accent: var(--lime)">
+            <span class="feature__icon">📦</span>
+            <h3>Layered Jar</h3>
+            <p>Dependencies und App-Code liegen in getrennten Layern. Docker baut nur neu, was sich geändert hat.</p>
+        </article>
+        <article class="feature" style="--accent: var(--violet)">
+            <span class="feature__icon">🩺</span>
+            <h3>Actuator</h3>
+            <p><code>health</code> und <code>info</code> sind freigegeben, z. B. für Probes und Monitoring.</p>
+        </article>
+    </section>
+
+    <section class="endpoints" aria-label="Endpoints">
+        <h2 class="section-title">Endpoints</h2>
+        <ul class="endpoint-list">
+            <li><a href="/actuator/health"><span class="verb">GET</span><code>/actuator/health</code><span class="arrow">→</span></a></li>
+            <li><a href="/actuator/info"><span class="verb">GET</span><code>/actuator/info</code><span class="arrow">→</span></a></li>
+            <li><a href="/actuator"><span class="verb">GET</span><code>/actuator</code><span class="arrow">→</span></a></li>
+        </ul>
+    </section>
+</main>
+
+<footer class="footer">
+    <span>Spring Boot · Java 25</span>
+    <span id="clock"></span>
+</footer>
+
+<script src="js/app.js" defer></script>
+</body>
+</html>
