@@ -84,6 +84,7 @@ COPY --chown=185:185 containerconfig/application.properties /app/config/applicat
 # → Externe Konfiguration ins Config-Verzeichnis für die Referenz für ENV Vars
 
 RUN java -XX:ArchiveClassesAtExit=/app/app.jsa \
+         -XX:+UseSerialGC \
          -Dspring.context.exit=onRefresh \
          -Dspring.aot.enabled=true \
          -Dspring.config.location=file:/app/config/application.properties \
@@ -91,6 +92,7 @@ RUN java -XX:ArchiveClassesAtExit=/app/app.jsa \
 # → CDS-Trainingslauf: Startet die App bis zum Context-Refresh und schreibt die geladenen Klassen in app.jsa.
 # → Läuft bewusst in der Runtime-Stage: CDS verlangt zur Laufzeit denselben Classpath
 #   (hier /app als exploded JAR) und dieselbe JVM wie beim Erzeugen des Archivs.
+# → Gleicher GC wie zur Laufzeit, damit das Archiv ohne Einschränkungen genutzt wird.
 
 EXPOSE 8080
 # → Dokumentiert den Port, den die App verwendet (Spring Boot Default).
@@ -99,23 +101,23 @@ EXPOSE 8080
 # Dies ist wichtig für das Signal-Handling (z.B. in Kubernetes).
 # exec ersetzt den aktuellen Shell-Prozess durch den Java-Prozess.
 
-# JVM-Optionen:
+# JVM-Optionen (ausgelegt auf ein Container-Limit von 128 MB):
 # -Djava.security.egd: Beschleunigt kryptografische Initialisierung
-# -XX:MaxRAMPercentage=50: Java nutzt max 50% des Container-RAMs
-# -XX:InitialRAMPercentage=30: Startet mit 30% RAM (schnellerer Startup)
-# -XX:+UseG1GC: G1 Garbage Collector für niedrige Latenz
-# -XX:MaxGCPauseMillis=200: Zielwert für GC-Pause
-# -XX:+ExplicitGCInvokesConcurrent: System.gc() läuft parallel
+# -XX:MaxRAMPercentage=50: Java nutzt max 50% des Container-RAMs für den Heap
+# -XX:+UseSerialGC: Kaum Overhead (G1 belegt allein ~54 MB native), ideal für kleine Heaps
+# -XX:ReservedCodeCacheSize=32m: Begrenzt den Code Cache (Default 240 MB reserviert)
+# -XX:TieredStopAtLevel=1: Nur C1-Compiler, spart Speicher, dafür weniger Spitzendurchsatz
+# -Xss512k: Kleinere Thread-Stacks für Plattform-Threads
 # -XX:+ExitOnOutOfMemoryError: JVM beendet bei OOM (Kubernetes kann neustarten)
 ENTRYPOINT ["java", \
   "-XX:SharedArchiveFile=/app/app.jsa", \
   "-Dspring.aot.enabled=true", \
   "-Djava.security.egd=file:/dev/./urandom", \
   "-XX:MaxRAMPercentage=50", \
-  "-XX:InitialRAMPercentage=30", \
-  "-XX:+UseG1GC", \
-  "-XX:MaxGCPauseMillis=200", \
-  "-XX:+ExplicitGCInvokesConcurrent", \
+  "-XX:+UseSerialGC", \
+  "-XX:ReservedCodeCacheSize=32m", \
+  "-XX:TieredStopAtLevel=1", \
+  "-Xss512k", \
   "-XX:+ExitOnOutOfMemoryError", \
   "-Dspring.config.location=file:/app/config/application.properties", \
   "org.springframework.boot.loader.launch.JarLauncher"]
