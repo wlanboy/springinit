@@ -1,0 +1,33 @@
+replicaCount: 1
+deploymentName: springinit
+namespace: springinit
+image:
+  repository: registry.gmk.lan/springinit
+  tag: latest
+  pullPolicy: Always
+
+hosts:
+  - hello.gmk.lan
+  - hello.localhost
+
+service:
+  port: 8080
+  targetPort: 8080
+
+istio:
+  gateway: springinit-gateway
+  gatewayNamespace: "istio-ingress"
+
+certmanager:
+  enabled: true
+  issuer: local-ca-issuer
+  kind: ClusterIssuer
+  secretName: springinit-tls
+
+# Die JVM-Optionen sind im Dockerfile-ENTRYPOINT fest auf ein Container-Limit von 128 MB ausgelegt
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 50m
+  limits:
+    memory: 128Mi
