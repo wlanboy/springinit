@@ -6,6 +6,7 @@
     <title>Spring Init</title>
     <meta name="description" content="Spring Boot Service – Status, Build-Infos und Endpoints">
     <meta name="theme-color" content="#0a0a12">
+    <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -41,6 +42,7 @@
         <div class="hero__actions">
             <a class="btn btn--primary" href="/actuator/health">Health ansehen</a>
             <a class="btn btn--ghost" href="/actuator">Alle Endpoints</a>
+            <button class="btn btn--play" id="play-btn" type="button" aria-haspopup="dialog" aria-controls="game-dialog">▶ Jump &amp; Run</button>
         </div>
     </section>
 
@@ -95,11 +97,26 @@
     </section>
 </main>
 
+<dialog class="game-dialog" id="game-dialog" aria-labelledby="game-title">
+    <div class="game-dialog__inner">
+        <div class="game__head">
+            <h2 class="section-title" id="game-title">Bean Runner</h2>
+            <button class="game__close" id="game-close" type="button" aria-label="Spiel schließen">Esc ✕</button>
+        </div>
+        <div class="game__frame">
+            <canvas id="game" tabindex="0" autofocus
+                    aria-label="Jump-and-Run-Spiel für Spring-Boot-Entwickler. Kaffee sammeln, Exceptions ausweichen. Mit Leertaste, Pfeil nach oben oder Tippen springen."></canvas>
+        </div>
+        <p class="game__hint">Leertaste / ↑ / Tippen: springen · 2× drücken: Doppelsprung · P / F8: Breakpoint · Esc: schließen</p>
+    </div>
+</dialog>
+
 <footer class="footer">
     <span>Spring Boot · Java 25</span>
     <span id="clock"></span>
 </footer>
 
 <script src="js/app.js" defer></script>
+<script src="js/game.js" defer></script>
 </body>
 </html>

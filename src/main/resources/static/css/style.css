@@ -287,6 +287,24 @@ main {
     background: var(--surface-hover);
 }
 
+.btn--play {
+    border: 1px solid rgba(196, 255, 61, 0.35);
+    background: rgba(196, 255, 61, 0.08);
+    color: var(--lime);
+    font: 600 1rem/1.6 var(--mono);
+    cursor: pointer;
+}
+
+.btn--play:hover {
+    background: rgba(196, 255, 61, 0.14);
+    box-shadow: 0 10px 34px -10px rgba(196, 255, 61, 0.6);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
 /* ---------- Karten ---------- */
 
 .cards {
@@ -474,6 +492,106 @@ main {
 .endpoint-list a:hover .arrow {
     transform: translateX(4px);
     color: var(--pink);
+}
+
+/* ---------- Spiel (Overlay) ---------- */
+
+.game-dialog {
+    width: min(1000px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100vh - 32px);
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    background: #0d0c18;
+    color: var(--text);
+    box-shadow: 0 30px 120px -30px rgba(139, 92, 255, 0.55);
+}
+
+.game-dialog::backdrop {
+    background: rgba(5, 5, 10, 0.72);
+    backdrop-filter: blur(6px);
+}
+
+.game-dialog[open] {
+    animation: dialog-in 0.22s ease-out;
+}
+
+@keyframes dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+}
+
+body:has(.game-dialog[open]) {
+    overflow: hidden;
+}
+
+.game-dialog__inner {
+    padding: clamp(14px, 3vw, 24px);
+}
+
+.game__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.game__head .section-title {
+    margin: 0;
+}
+
+.game__close {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--muted);
+    font: 600 0.8rem/1.4 var(--mono);
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.game__close:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+
+.game__close:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+}
+
+.game__hint {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+}
+
+.game__frame {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.game__frame:focus-within {
+    border-color: color-mix(in srgb, var(--cyan) 50%, transparent);
+}
+
+#game {
+    display: block;
+    width: 100%;
+    height: 260px;
+    cursor: pointer;
+    touch-action: manipulation;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ---------- Footer ---------- */
