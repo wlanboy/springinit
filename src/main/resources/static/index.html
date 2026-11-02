@@ -101,13 +101,17 @@
     <div class="game-dialog__inner">
         <div class="game__head">
             <h2 class="section-title" id="game-title">Bean Runner</h2>
-            <button class="game__close" id="game-close" type="button" aria-label="Spiel schließen">Esc ✕</button>
+            <div class="game__actions">
+                <button class="game__btn game__btn--mode" id="game-mode" type="button" aria-pressed="true"
+                        title="Spielmodus umschalten (B)">🐞 Bugs: an</button>
+                <button class="game__btn" id="game-close" type="button" aria-label="Spiel schließen">Esc ✕</button>
+            </div>
         </div>
         <div class="game__frame">
             <canvas id="game" tabindex="0" autofocus
                     aria-label="Jump-and-Run-Spiel für Spring-Boot-Entwickler. Kaffee sammeln, Exceptions ausweichen. Mit Leertaste, Pfeil nach oben oder Tippen springen."></canvas>
         </div>
-        <p class="game__hint">Leertaste / ↑ / Tippen: springen · 2× drücken: Doppelsprung · P / F8: Breakpoint · Esc: schließen</p>
+        <p class="game__hint">Leertaste / ↑ / Tippen: springen · 2× drücken: Doppelsprung · P / F8: Breakpoint · B: Modus · Esc: schließen</p>
     </div>
 </dialog>
 
