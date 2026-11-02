@@ -461,8 +461,12 @@
         dialog.showModal();
         resize();
         canvas.focus({preventScroll: true});
-        // laufende Runde bleibt im Breakpoint, sonst neue Runde starten
-        if (state !== 'paused') start();
+        // laufende Runde bleibt im Breakpoint, sonst Startbildschirm zeigen
+        if (state !== 'paused') {
+            reset();
+            state = 'ready';
+            stateT = 0;
+        }
         last = performance.now();
         acc = 0;
     }
